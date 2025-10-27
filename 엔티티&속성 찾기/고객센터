@@ -1,0 +1,85 @@
+-- Entity(엔터티), Attribute(속성), Identifier(식별자), Relationship(관계) --
+
+1. 이용자(User)
+user_id(PK)
+username(로그인 아이디)
+password(비밀번호)
+user_name(이름)
+email(이메일)
+phone(휴대폰 번호)
+user_type(이용자 or 관리자)
+join_date(가입일)
+2. FAQ 카테고리(FAQ category)
+category_id (PK)
+category_name (카테고리명) 
+3. 자주 묻는 질문(FAQ)
+faq_id (PK)
+category_id (카테고리명 FK -> FAQ 카테고리 catagory_id)
+question (질문 제목)
+answer (답변 내용)
+created_by (등록 관리자 ID FK -> 이용자 user_id )
+created_at (등록일)
+updated_at (수정일)
+4. 공지사항(Notice)
+notice_id(PK)
+theater_id(극장id FK -> 극장정보 thearter_id)
+category(공지구분) -> 일반 공지, 이벤트 등
+title(제목)
+notice_content(내용)
+attachment(첨부파일 경로)
+created_by (등록 관리자 ID FK -> 이용자 user_id )
+created_at (등록일)
+updated_at (수정일)
+5. 1:1문의(Inquiry)
+inquiry_id(PK)
+user_id (FK -> 이용자 , 비회원 NULL 허용)
+inquirer_name(이름, 비회원 필수)
+phone(연락처, 비회원 필수)
+email(이메일, 비회원 필수)
+post_pw(게시글 비밀번호, 비회원용)
+inquiry_type(문의유형)
+title(제목)
+inquiry_content(문의 내용)
+attachment(첨부파일 경로)
+inquiry_status(상태)
+created_at(등록일)
+answer_at(답변일)
+6. 1:1 문의 답변(Inquiry answer)
+answer_id(PK)
+inquiry_id(FK-> 1:1문의)
+admin_id(이용자 FK, 관리자ID)
+answer_content(답변 내용)
+answered_at(답변 등록일)
+7. 분실물 문의(Lost item)
+lost_id(PK)
+user_id(이용자 FK, 회원id)
+reporter_name(이름, 비회원 필수)
+phone(연락처, 비회원 필수)
+email(이메일, 비회원 필수)
+post_pw(게시글 비밀번호, 비회원용)
+theater_id(극장정보 FK , 분실장소)
+title(제목)
+content(상세내용)
+status(처리상태 -> 접수, 확인중, 보관중, 반환완료)
+created_at(등록일)
+updated_at(수정일)
+8. 극장 정보(Theater)
+theater_id(PK)
+theater_name(극장명)
+region(지역명)
+address(주소)
+phone(연락처)
+
+
+이용자(1) <-> (N) 1:1 문의 : 이용자 한 명은 여러 개의 1:1 문의 작성 가능
+1:1 문의(1) <-> (1) 1:1 문의 답변 : 문의 하나 당 하나의 답변만 가능
+
+
+이용자(1, 관리자) <-> (N) 1:1 문의 답변 : 관리자는 여러 문의에 답변 가능
+이용자(1) <-> (N) 분실물 문의 : 이용자 한 명은 여러 개의 분실물 문의 작성 가능
+극장(1) <-> (N) 분실물 문의 : 각 극장별 분실물 문의가 여러 개 존재 가능
+FAQ 카테고리(1) <-> (N) FAQ : 카테고리 하나에 여러 개의 FAQ 존재
+이용자(1, 관리자) <-> (N) FAQ : 관리자는 여러 FAQ 등록 가능
+극장(1) <-> (N) 공지사항 : 극장별 여러 공지사항 존재 가능 
+이용자(1, 관리자) <-> (N) 공지사항 : 관리자는 여러 공지사항 등록 가능
+문의유형(1) <-> (N) 1:1 문의 : 한 문의유형에 여러 문의 존재 가능  
